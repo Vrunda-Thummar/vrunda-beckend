@@ -15,7 +15,7 @@ create table CLIENT_MASTER(
     CITY varchar(15),
     PINCODE int,
     State varchar(15),
-    NALDUE int
+    BALDUE int
 );
 
 -- desc CLIENT_MASTER;
@@ -38,12 +38,6 @@ insert into CLIENT_MASTER values
 
 --                                              Table 2
 
--- \sql
--- \connect root@localhost:3306
--- show databases;
--- use node5to7;
--- show tables;
-
 -- create new table
 
 create table PRODUCT_MASTER(
@@ -56,8 +50,6 @@ create table PRODUCT_MASTER(
     SELLPRICE int,
     COSTPRICE int
 );
-
--- desc PRODUCT_MASTER;
 
 -- insert data
 
@@ -79,13 +71,8 @@ insert into PRODUCT_MASTER values
 
 
 
---                                                 Table 3
 
--- \sql
--- \connect root@localhost:3306
--- show databases;
--- use node5to7;
--- show tables;
+--                                                 Table 3
 
 -- create new table
 
@@ -103,8 +90,6 @@ create table SALESMAN_MASTER(
     REMARKS varchar(60)
 );
 
--- desc SALESMAN_MASTER;
-
 -- insert data
 
 insert into SALESMAN_MASTER values
@@ -114,3 +99,66 @@ insert into SALESMAN_MASTER values
 ("S00004" , "Ashish" , "A/5" , "Juhu" , "Mumbai" , 400044 , "Maharastra" , 3500 , 200 , 150 , "Good");
 
 -- select * from SALESMAN_MASTER;
+
+
+
+--         3. Exercise on retrieving records from a table
+
+-- a. Find out the names of all clients.
+
+select NAME from CLIENT_MASTER;
+
+-- b.Retrieve the antire contents of the CLIENT_MASTER.
+
+select * from CLIENT_MASTER;
+
+-- c.Retrieve the list of names, city and the state of all the clients.
+
+select name , city , state from CLIENT_MASTER;
+
+-- d.List the various Product available from the PRODUCT_MASTER Table.
+
+select * from PRODUCT_MASTER;
+
+-- e.List of all clients who are located in Mumbai.
+
+select city from CLIENT_MASTER where city = "Mumbai";
+
+-- f.Find the names of salesman who have a salary equal to Rs.3000.
+
+select SALESMANNAME from SALESMAN_MASTER where SALAMT = 3000;
+
+
+
+
+
+
+--             4.Exercise on updating records in table
+
+-- a.Change the city of clientNo 'C00005' to 'Banglore'.
+
+update CLIENT_MASTER set city = "Banglore" where CLIENTNO = "C00005";
+
+-- b.Change the BalDue of ClientNo 'C00001' to Rs.1000.
+
+update CLIENT_MASTER set BALDUE = 1000 where clientNo = "C00001";
+
+-- c.Change the cost price of 'Trousers' to Rs.950.
+
+update PRODUCT_MASTER set COSTPRICE = 950 where DESCRIPTION = "Trouser";
+
+-- d.Change the city of the Salesman to pune
+
+update SALESMAN_MASTER set city = "Pune";
+
+
+
+
+-- delete data
+
+delete from CLIENT_MASTER where clientno = "C00006";
+
+
+--  drop statement
+
+drop table CLIENT_MASTER;
