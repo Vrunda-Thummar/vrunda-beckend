@@ -273,3 +273,4 @@ db.SALESMAN_MASTER.insertMany([
 ]);
 
 db.SALESMAN_MASTER.find();
+
