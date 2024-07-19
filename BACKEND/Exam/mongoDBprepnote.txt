@@ -1,0 +1,599 @@
+--what is mongodb?
+
+=>MongoDB is an open source.
+=>it is document oriented database.
+=>it is cross platform.
+=>it is classified as NoSQL database program.
+=>MongoDb is use like json document with optional schemas.
+=>it is not based on table like relational database structure.
+
+-- features of mongodb
+
+=>document-oriented database.
+=>stores data in BSON like documents.
+=>Schemas less database.
+=>it has very high performance.
+=>it allows perform one operation in group data and give single or multiple result.
+=>it's provide horizontal scalability with help of sharding.
+
+-->uses of mongoDB
+
+=>it is content management system.
+=>e-commerce platform.
+=>real time analytics.
+=>big data applications.
+=>log management and analysis.
+=>it is flexible to use.
+
+--advantages of mongoDB.
+
+=>it doesnot support join operations.
+=>it provides flexibility to fields in documents.
+=>it is document oriented database.
+=>it data store in BSON documents.
+=>it does not require sql injection.
+=>it provides high performance.
+=>it is cost effective.
+
+--mongoDB Structure.
+
+=>it is physical database that contian several logical database.
+=>each database contains several collections.
+=>the collection is like tables in relational database.
+=>the collection is like record/row in relational database.
+
+
+--difference between sql and mongodb.
+
+=>mongodb
+
+-mongodb is document oriented and Nosql database.
+-it store data in json like documents.
+-it provides json query language support.
+-it supports both veritcal and horizontal scaling.
+-no schema definition required.
+-it not allow join operations.
+
+=>sql
+
+-it is relational database.
+-it stores data in form of tables.
+-it uses sql for accessing data
+-it supports only vertical scaling. 
+-structured data with clear schema.
+-it allows join operations.
+
+--difference between mongodb shell and server
+
+=>read from book
+
+--default database
+
+=>mongodb admin will use these default database.
+
+(this query is used for show all database)
+
+-show dbs
+
+--ObjecID
+
+=>objectID is not a JSON type but it is type of BSON.
+=>objectID is 12 bytes.
+=>mongoDB server with associate a uniqueID which is nothing but objectID.
+=>first 4 bytes represent the timestamp when this document was inserted.
+=>next 3 bytes represents machine identifiers(hostname) where objectId was generated.
+=>next 2 bytes represent process or thread identifiers of generating process.
+=>next 3 bytes represent some random increment values.
+
+
+--create database
+
+=>to create database in mnogodb, use use database_name command.
+=>if specified database does not exists , mongoDB create new database.
+
+eg:- use mydata(database_name)
+
+=>This command create new database.
+
+
+-- create collection
+
+=>Collection in MongoDB are like tables in relational database.
+
+=>syntax:   
+	   db.createCollection(name,option)
+
+=>name is name of collection.
+
+=>option is document for specify the configuration of collection.
+
+eg:- db.createCollection("Student")
+
+=>this command is used for create new collection.
+
+--inserting a data in document
+
+=>to insert data into mongoDB collection 
+
+=>syntax:
+	  insert() or insertOne() or insertMany()
+
+=> insertMany() is used for insert multiple documents at a time.
+
+eg:- 
+	//insert one document
+
+	db.student.insertOne({
+	"name"    : "John",
+	"age"     : 20,
+	"subject" : ["maths","science"]
+	});
+
+	//insert many documents
+
+	db.student.insertMany([
+	{
+		"name"    : "John",
+		"age"     : 20,
+		"subject" : ["maths","science"]
+	},
+	{
+		"name"    : "Smit",
+		"age"     : 23,
+		"subject" : ["maths","science"]
+	}
+	]);
+
+=>this commands inserts document into "students" collection.
+
+--Query Documents
+
+=>the find() function returns all function returns all documents that match a query.
+
+=>syntax:
+	  db.collection_name.find()
+		or
+	  db.collection_name.findOne()
+
+=>eg:-
+	db.student.find({"name":"john"});
+
+->this command find document in "student" collection where "name" is "john".
+
+			or
+
+	db.student.findOne({"name":"john"});
+
+->this command find (first)one document in the "student" collection where "name" is "john".
+
+            or
+
+    db.student.findOne({ "name" : "john" },
+                        { "_Id" : 1 , "name" : 1}
+                        )
+
+->show specific data only in a document using projection
+
+--updating document
+
+=> to update a document mongoDB provides updateOne() and updateMany() command.
+=>the updateOne() and updateMany() function upadtes the values of existing document.
+
+=>syntax:
+            db.collection_name.updateOne(query, update, options)
+
+                            or
+            db.collection_name.updateMany(query, update, options)
+
+eg:-
+        //update a one document
+
+            db.student.updateOne(
+                { "name" : "john" },
+                { $set : { "age" : 25 } },
+                { upsert : true }
+                )
+        
+->this command updates the document in the "student" collection where "name" is "john"  and set the value of "age" to 25.
+
+        //update many document
+
+            db.student.updateMany({"name":"john"},
+                                  {$set : { age : 21}},
+                                  {upsert : true}
+            )
+
+->this command updates the document in the "student" collection where "name" is "john" and set the value of "age" to 21.
+
+--update operator
+
+=> there are many update operator that van be used during document updates.
+
+:- $currentDate
+    set the field value to currentDate
+
+    eg:db.books.updateOne({"author" : "Unknown"} , {$currentDate: {newdate : true}})
+
+:- $inc
+    increment field value.
+
+    eg:db.books.updateOne({"author" : "Unknown"} , {$inc: {pages : -10}})
+
+:- $rename
+    rename the field name.
+
+    eg:db.books.updateOne({"author" : "Unknown"} , {$rename: {"title" : "topics"}})
+
+:- $set
+    set the field value.
+
+:- $unset
+    unset the field value.
+
+    eg:db.books.updateOne({"author" : "Unknown"} , {$unset: {topics : ""}})
+
+--array
+
+:-$addtoset
+
+    add distinct elements to an array
+
+    eg:db.books.updateOne({"author" : "Unknown"} , {$addToSet: {"country" : ["pakistan" , "africa"]}})
+
+:-$pop
+
+    remove the first or last element from an array
+
+    eg: { _id: 1, scores: [ 8, 9, 10 ] }
+             db.students.update( { _id: 1 }, { $pop: { scores: -1 } } )
+
+:-$pull
+
+    remove all elements that match a specified query from an array
+
+    eg: db.students.updateOne({name:"Rohit"},{$pull:{"language":"Uide"}})
+
+    db.students.updateOne({ name: "Rohit" },
+    { $pull: { "personal.semesterMarks": { $lte: 75 } } }
+    )
+
+    db.students.updateMany({},
+    { $pull: { articles: { language: "Java", tArticles: 50 } } },
+    { multi: true })
+
+:- $push method :
+
+=> this will add elements in existing array where using set method you can't add in exist array elements 
+
+db.students.update({ name: "Rohit" }, { $push: { language: { $each: ["js", "Uide", "C++"] } } })
+
+-- delete document
+
+=> you can deleteOne() or deleteMany() command.
+=>the deleteOne() function delete a document from the collection.
+
+eg:
+    //delete a document
+
+    db.student.deleteOne({"name":"john"})
+
+    //delete many document
+
+    db.student.deleteMany({"name":"john"})
+
+--drop statement
+
+=>to drop collection or database,
+=>use drop() method.
+
+=>drop() method is used to delete a collection from the database.
+=>dropDatabase() method is used to delete a database from the server.
+
+eg:
+
+    //drop collection
+
+    db.collection.drop();
+
+    //drop currentDatabase 
+
+    db.dropDatabase();
+
+--JSON file import
+
+=> syntax:
+            mongoimport --db (database_name) --collection (collection_name) --file (filename) --jsonArray
+
+--js file
+=> syntax:
+            mongosh
+            load("filename.js")
+
+
+-- comparison operator
+
+=> $eq (equal)
+    it is used to match value of field that equal to specific value
+
+    syntax:
+        db.collection.find("field":{$eq : value})
+
+    eg:db.book.find({"pages" : {$eq: 784}})
+
+=> $ne (not equal)
+    it is used to match value of field that not equal to specific value
+
+    syntax:
+        db.collection.find("field":{$ne : value})
+
+    eg:
+        db.book.find({"pages" : {$ne: 784}})
+
+=> $gt
+      it is used to match value of field that greater than specific value
+
+      syntax:
+            db.collection.find({"field":{ $gt : value}})
+    
+    eg::
+        db.book.find({"pages" : {$gt: 784}})
+
+=> $gte
+
+    it is used to match value of field that greater than or equal to specific value
+
+    syntax:
+         db.collection.find({"field":{ $gte : value}})
+
+    eg:
+        db.book.find({"pages" : {$gte: 784}})
+
+=>$lt
+
+    it is used to match value of field that less than specific value
+
+    syntax:
+
+        db.collection.find({"field":{ $lt : value}})
+
+    eg:
+        db.book.find({"pages" : {$lt: 784}})
+
+=> $lte
+    
+    it is used to match value of field that less than or equal to specific value
+
+    syntax:
+        db.collection.find({"field":{ $lte : value}})
+
+    eg:
+        db.book.find({"pages" : {$lte: 784}})
+
+=> $in
+    it is used to match value of field that equal to any value in array
+
+    syntax:
+        db.collection.find({"field":{ $in : [value1,value2,value3]}})
+
+    eg:
+        db.book.find({"pages" : {$in: [784, 784, 784]}})
+
+=> $nin
+
+    it is used to match value of field that equal to minimum value in array
+
+    syntax:
+
+        db.collection.find({"field":{ $nin : [value1,value2,value3]}})
+
+    eg:
+        db.book.find({"author" : {$nin: ["Unknown" , "Chinua Achebe"]}})
+
+=> logical operator
+
+-- $and
+
+    syntax:
+    db.collection.find({$and: [{field1: value1}, {field2: value}]})
+
+    eg:
+    
+    db.book.find({$and: [
+    {"pages":{$lte: 505}} , {"author":{$eq: "Unknown"}} , {"year":1350}
+    ]})
+
+--$or
+syntax:
+        db.collection.find({$or: [{field1: value1}, {field2: value}]})
+eg:
+    db.book.find({
+        $or: [{"pages" : {$lte: 505}} , {"author" : {$eq: "Unknown"}} , {"year" : 1350}]
+    })
+
+-- $nor
+
+    it is used to join query clauses with logical. nor and returns all document that fail to match both clauses.
+
+    syntax:
+
+        db.collection.find({$nor: [{field1: value1}, {field2: value}]})
+
+    eg:
+        
+        db.book.find({
+            $nor: [{"pages" : {$lte: 505}} , {"author" : {$eq: "Unknown"}} , {"year" : 1350}]
+        })
+
+=> $not
+
+syntax:
+    db.collection.find({$not: {field: value}})
+
+eg:
+    db.book.find({$not: {"pages" : {$lte: 505}}})
+
+-- mongoDB Aggregation
+
+=> Aggregation operation process data record and returns computed result.
+
+=> $match
+    -this is filter operation.
+    -it filter only that document that are match the specified condition to the next pipeline stage.
+
+    syntax:
+        db.collection.aggregate([{$match: {field: value}}])
+        db.collection.find({"field":value})
+
+    eg:
+    db.book.aggregate([{$match: {"pages" : {$lte: 505}}}])
+
+=> $project
+
+    -this is projection operation.
+    -this operation can add new field, remove existing field, or reshape a document
+
+    syntax:
+            db.collection.aggregate([{$project: {field: 1}}])
+            db.collection.find({"field":value})
+    eg:
+        b.Mock2.aggregate([
+            {
+                $project: {
+                 "id": 1, "first_name": 1
+                }
+            }
+            ])
+
+=> $limit
+-this is limit operation.
+-this operation can restricts number of document that can pass through pipeline.
+
+syntax:
+        db.collection.aggregate([{$limit: 10}])
+
+eg:
+        db.Mock2.aggregate([
+    {
+        $limit: 15
+    },
+    {
+        $skip: 5
+    }
+])  // give 10 records
+
+=> skip
+
+    -this is skip operation.
+    -this operation can skip number of document that can pass through pipeline.
+
+        syntax:
+                db.collection.aggregate([{$skip: 10}])
+                db.student.find().skip(number)
+
+=>count
+
+    -this is count operation.
+    -this operation can used to count total amount of document paased from previous stage in pipeline.
+
+    syntax:
+    db.collection.aggregate([{$count: "total"}])
+    db.collection.count()
+
+    eg:
+        db.Mock2.aggregate().count("count")
+
+db.Mock2.aggregate([
+    {
+        $match: (
+            { "id": { $lte: 15 } }
+        )
+    },
+    {
+        $count: "Total"
+    }
+])
+
+=> sort
+
+    -this is sort operation.
+    -this operation can sort document in ascending or descending order.
+
+    -syntax:
+    db.collection.aggregate([{$sort: {field1: 1, field2: -1}}])
+
+    -eg:
+
+        db.Mock2.find({}).sort({ id: 1 })  // set data in accending order
+        db.Mock2.find({}).sort({ id: -1 })   // set data in decending order
+
+        db.Mock2.aggregate([
+    {
+        $sort: {
+            id: 1
+        }
+    }
+])
+
+=>group
+-this is group operation.
+- this operation can ussed group document based on specifiedjey non neagtuo.
+
+syntax:
+        db.collection.aggregate([{$group: {_id: <key>, <field1>: <operation>,}}])
+
+eg:
+        db.Mock2.aggregate([
+     {
+         $project: {
+             gender: 1
+         }
+     },
+     {
+         $group: {
+             _id: "$gender",
+             total: { $sum: 1 }
+         }
+     },
+     {
+         $addFields: {
+             gender: "$_id"
+         }
+     },
+     {
+         $project: {
+             _id: 0
+         }
+     },
+     {
+         $sort: {
+             total: 1       }
+  }])
+
+=>$lookup
+
+    -this is used in place of join
+    syntax:
+            db.collection.aggregate([
+                {
+                    $lookup: {
+                                from: <collection to join>,
+                                localField: <field from the input documents>,
+                                foreign field : "",
+                                as: <output array field>
+                }
+            ])
+
+=> $unwind
+
+    -operation is use to separate element of an array field from input document ,  generatinga new document for each function.
+
+    syntax:
+        db.collection.aggregate([
+            {
+                $unwind: "$field"
+            }
+        ])
+
+    eg:
+
+    
