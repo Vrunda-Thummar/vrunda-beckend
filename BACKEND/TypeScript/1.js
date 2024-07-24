@@ -32,11 +32,19 @@
 //     gender: "Male",
 //     email: "hello@test.in",
 // }
-var color;
-(function (color) {
-    color[color["sky"] = 0] = "sky";
-    color[color["green"] = 1] = "green";
-    color[color["orange"] = 2] = "orange";
-    color[color["yellow"] = 3] = "yellow";
-})(color || (color = {}));
-var data = color.yellow;
+// enum color {
+//     sky, green, orange, yellow
+// }
+// let data : color = color.yellow
+var a = 10;
+var b = 20;
+console.log(a / b); // 0.5
+console.log(a + b); // 30
+console.log(a * b); // 200
+console.log(Math.pow(a, b)); // 2000
+console.log(a - (-b)); // 30
+console.log(a % b); //
+console.log(++a);
+console.log(++b);
+console.log(--a);
+console.log(--b);
