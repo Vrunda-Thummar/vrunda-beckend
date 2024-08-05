@@ -1,7 +1,6 @@
 // HTTP Module
 
 const http = require('http')
-const fs = require('fs')
 
 const server1 = http.createServer((req, res) => {
     res.setHeader("Content-type", "text/html")
